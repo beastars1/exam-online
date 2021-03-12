@@ -1,8 +1,6 @@
 package com.lzq.exam.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,23 +13,17 @@ import javax.persistence.Table;
  * @author beastars
  */
 @Entity
-@Table(name = "admin")
+@Table(name = "paper_manage")
 @Data
-public class Admin {
+public class paperManage {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "admin_id")
-  private Long id;
+  @Column(name = "paper_id")
+  private Long paperId;
 
-  @Column(name = "admin_name")
-  private String name;
+  @Column(name = "question_type")
+  private Integer type;
 
-  @Column(name = "email")
-  private String email;
-
-  @Column(name = "pwd")
-  private String pwd;
-
-  @Column(name = "role")
-  private Integer role;
+  @Column(name = "question_id")
+  private Long questionId;
 }

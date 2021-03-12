@@ -31,5 +31,5 @@ public class Teacher {
   private String pwd;
 
   @Column(name = "role")
-  private int role;
+  private Integer role;
 }
