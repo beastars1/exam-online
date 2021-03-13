@@ -14,9 +14,15 @@ import javax.persistence.Table;
  *
  * @author beastars
  */
+@Entity
 @Table(name = "paper_manage")
 @Data
-public class paperManage {
+public class PaperManage {
+  /** 问题编号 */
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
   /** 试卷编号 */
   @Column(name = "paper_id")
   private Long paperId;
@@ -28,4 +34,11 @@ public class paperManage {
   /** 问题编号 */
   @Column(name = "question_id")
   private Long questionId;
+
+  /**
+   * 试卷中的问题集合
+   * key：问题类型
+   * value：该类型下的问题的编号集合
+   */
+//  private Map<Integer, List<Long>> questions;
 }

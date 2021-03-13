@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "score_manage")
 @Data
-public class scoreManage {
+public class ScoreManage {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "socre_id")
