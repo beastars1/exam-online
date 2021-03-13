@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 学生实体类
+ *
  * @author beastars
  */
 @Entity
@@ -21,18 +23,23 @@ public class Student {
   @Column(name = "student_name")
   private String name;
 
+  /** 学生照片 */
   @Column(name = "avatar")
   private String avatar;
 
+  /** 学生专业 */
   @Column(name = "major")
   private String major;
 
+  /** 学生年级 */
   @Column(name = "grade")
   private String grade;
 
+  /** 学生班级 */
   @Column(name = "clazz")
   private String clazz;
 
+  /** 学生院系 */
   @Column(name = "department")
   private String department;
 

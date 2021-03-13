@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 管理员实体类
+ *
  * @author beastars
  */
 @Entity

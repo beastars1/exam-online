@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 教师实体类
+ *
  * @author beastars
  */
 @Entity
@@ -21,6 +23,7 @@ public class Teacher {
   @Column(name = "teacher_name")
   private String name;
 
+  /** 教师院系 */
   @Column(name = "department")
   private String department;
 
