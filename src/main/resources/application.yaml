@@ -10,9 +10,9 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
-      # Ã¿´ÎÔËĞĞ³ÌĞò£¬Ã»ÓĞ±íÊ±»á´´½¨±í£¬Èç¹û¶ÔÏó·¢Éú¸Ä±ä»á¸üĞÂ±í½á¹¹£¬Ô­ÓĞÊı¾İ²»»áÇå¿Õ£¬Ö»»á¸üĞÂ
+      # æ¯æ¬¡è¿è¡Œç¨‹åºï¼Œæ²¡æœ‰è¡¨æ—¶ä¼šåˆ›å»ºè¡¨ï¼Œå¦‚æœå¯¹è±¡å‘ç”Ÿæ”¹å˜ä¼šæ›´æ–°è¡¨ç»“æ„ï¼ŒåŸæœ‰æ•°æ®ä¸ä¼šæ¸…ç©ºï¼Œåªä¼šæ›´æ–°
       ddl-auto: update
     properties:
       hibernate:
-        # ÀÁ¼ÓÔØ
+        # æ‡’åŠ è½½
         enable_lazy_load_no_trans: true
