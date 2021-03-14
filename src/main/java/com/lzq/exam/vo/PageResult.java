@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 分页查询结果识图模型
+ * 分页查询结果视图模型
  *
  * @author beastars
  */

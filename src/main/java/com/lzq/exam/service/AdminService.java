@@ -26,12 +26,8 @@ public class AdminService {
    * 查询所有的管理员信息
    */
   public List<Admin> findAllAdmin() {
-    List<Admin> admins = adminRepository.findAll();
-    if (admins.size() == 0) {
-      throw new ExamException(ExceptionEnum.ADMIN_NOT_FIND);
-    }
     log.info("[admin] query all admins");
-    return admins;
+    return adminRepository.findAll();
   }
 
   /**
