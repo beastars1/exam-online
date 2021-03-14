@@ -22,7 +22,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin")
-@Slf4j
 public class AdminController {
 //  static final Logger log = LoggerFactory.getLogger(AdminController.class);
   @Autowired
@@ -32,10 +31,9 @@ public class AdminController {
    * 查询所有的管理员信息，并模糊掉密码
    */
   @GetMapping
-  public ResponseEntity<List<Admin>> findAll() {
+  public ResponseEntity<List<Admin>> findAllAdmin() {
     List<Admin> admins = adminService.findAllAdmin();
     admins.forEach(a -> a.setPwd(""));
-    log.info("find all admins");
     return ResponseEntity.ok(admins);
   }
 
@@ -46,7 +44,6 @@ public class AdminController {
   public ResponseEntity<Admin> findAdminById(@PathVariable Long adminId) {
     Admin admin = adminService.findAdminById(adminId);
     admin.setPwd("");
-    log.info("query admin id : {}", adminId);
     return ResponseEntity.ok(admin);
   }
 
@@ -56,7 +53,6 @@ public class AdminController {
   @PostMapping
   public ResponseEntity<Void> saveAdmin(@RequestBody Admin admin) {
     adminService.saveAdmin(admin);
-    log.info("save new admin");
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
@@ -66,7 +62,6 @@ public class AdminController {
   @DeleteMapping("/{adminId}")
   public ResponseEntity<Void> deleteAdmin(@PathVariable Long adminId) {
     adminService.deleteAdminById(adminId);
-    log.info("delete admin id : {}", adminId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
@@ -77,7 +72,6 @@ public class AdminController {
   public ResponseEntity<Void> updateAdmin(@PathVariable Long adminId, @RequestBody Admin admin) {
     admin.setId(adminId);
     adminService.updateAdmin(admin);
-    log.info("update admin id : {}", adminId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
