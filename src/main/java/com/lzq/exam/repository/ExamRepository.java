@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
  * @author beastars
  */
 public interface ExamRepository extends JpaRepository<Exam, Long> {
-  @Query(nativeQuery = true, value = "select * from exam_manage order by paper_id desc limit 1")
+  @Query(nativeQuery = true, value = "select * from exam order by paper_id desc limit 1")
   Exam findLastExam();
 }
