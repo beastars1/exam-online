@@ -15,9 +15,9 @@ import javax.persistence.Table;
  * @author beastars
  */
 @Entity
-@Table(name = "exam_manager")
+@Table(name = "exam")
 @Data
-public class ExamManage {
+public class Exam {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "exam_id")

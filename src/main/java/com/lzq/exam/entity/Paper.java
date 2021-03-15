@@ -15,9 +15,9 @@ import javax.persistence.Table;
  * @author beastars
  */
 @Entity
-@Table(name = "paper_manage")
+@Table(name = "paper")
 @Data
-public class PaperManage {
+public class Paper {
   /** 问题编号 */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

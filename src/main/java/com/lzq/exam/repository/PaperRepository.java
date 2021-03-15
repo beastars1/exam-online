@@ -1,10 +1,10 @@
 package com.lzq.exam.repository;
 
-import com.lzq.exam.entity.PaperManage;
+import com.lzq.exam.entity.Paper;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author beastars
  */
-public interface PaperManageRepository extends JpaRepository<PaperManage, Long> {
+public interface PaperRepository extends JpaRepository<Paper, Long> {
 }
