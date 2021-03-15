@@ -31,7 +31,7 @@ public class TeacherController {
   @GetMapping("/page")
   public ResponseEntity<PageResult<Teacher>> findTeacherByPage(
     @RequestParam(value = "page", defaultValue = "0") Integer page,
-    @RequestParam(value = "size", defaultValue = "10") Integer size
+    @RequestParam(value = "size", defaultValue = "5") Integer size
   ) {
     return ResponseEntity.ok(teacherService.findTeacherByPage(page, size));
   }

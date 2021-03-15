@@ -36,8 +36,10 @@ public class TeacherService {
     Page<Teacher> pages = teacherRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "id"));
     List<Teacher> teachers = pages.getContent();
     long totalElements = pages.getTotalElements();
+    int pageSize = pages.getNumberOfElements();
+    int pageNumber = pages.getNumber();
     log.info("[Teacher] query teachers by page : {} ,size : {}", page + 1, size);
-    return new PageResult<>(totalElements, teachers);
+    return new PageResult<>(totalElements, teachers, pageNumber, pageSize);
   }
 
   /**
