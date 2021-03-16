@@ -27,10 +27,9 @@ public interface ChoiceRepository extends JpaRepository<ChoiceQuestion, Long> {
    * 随机抽取题库中的题
    */
   @Query(nativeQuery = true,
-    value = "select * from fill_question" +
+    value = "select * from fill_question " +
       "where course = :course order by rand() desc limit :count")
   List<ChoiceQuestion> findRandomChoiceByCourse(
-    @Param("course") String course, @Param("pageNo") Integer count
+    @Param("course") String course, @Param("count") Integer count
   );
-
 }
