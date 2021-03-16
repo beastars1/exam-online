@@ -21,7 +21,7 @@ public class FillQuestion {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "fill_id")
-  private Long questionId;
+  private Long id;
 
   @Column
   private String course;

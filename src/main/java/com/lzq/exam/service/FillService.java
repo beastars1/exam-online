@@ -1,7 +1,7 @@
 package com.lzq.exam.service;
 
 import com.lzq.exam.entity.FillQuestion;
-import com.lzq.exam.repository.FillQuestionRepository;
+import com.lzq.exam.repository.FillRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class FillQuestionService {
+public class FillService {
   @Autowired
-  private FillQuestionRepository fillRepository;
+  private FillRepository fillRepository;
 
   /**
    * 查询所有的填空题
@@ -31,7 +31,7 @@ public class FillQuestionService {
    */
   public FillQuestion findLastFill() {
     log.info("[fill] query the last fill question");
-    return fillRepository.findLastExam();
+    return fillRepository.findLastFill();
   }
 
   /**
@@ -43,6 +43,13 @@ public class FillQuestionService {
   public List<FillQuestion> findRandomFillByCourse(String course, Integer count) {
     log.info("[fill] random query {} {} fill questions", count, course);
     return fillRepository.findRandomFillByCourse(course, count);
+  }
+
+  /**
+   * 通过问题编号列表来查询问题信息
+   */
+  public List<FillQuestion> findByIdIn(List<Long> ids) {
+    return fillRepository.findByIdIn(ids);
   }
 
   /**

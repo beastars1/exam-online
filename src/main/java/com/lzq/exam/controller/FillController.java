@@ -1,7 +1,7 @@
 package com.lzq.exam.controller;
 
 import com.lzq.exam.entity.FillQuestion;
-import com.lzq.exam.service.FillQuestionService;
+import com.lzq.exam.service.FillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/fill")
-public class FillQuestionController {
+public class FillController {
   @Autowired
-  private FillQuestionService fillService;
+  private FillService fillService;
 
   /**
    * 查询最后一个填空题
