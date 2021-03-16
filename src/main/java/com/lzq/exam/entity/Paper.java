@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 试卷管理，记录每一张试卷有什么问题
+ * 试卷问题管理，记录所有和试卷有关联的问题
  *
  * @author beastars
  */
