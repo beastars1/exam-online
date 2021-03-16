@@ -2,6 +2,7 @@ package com.lzq.exam.service;
 
 import com.lzq.exam.common.ExamException;
 import com.lzq.exam.common.ExceptionEnum;
+import com.lzq.exam.common.Role;
 import com.lzq.exam.repository.AdminRepository;
 import com.lzq.exam.repository.StudentRepository;
 import com.lzq.exam.repository.TeacherRepository;
@@ -24,18 +25,18 @@ public class LoginService {
   @Autowired
   private StudentRepository studentRepository;
 
-  public Object login(String username, String pwd) {
-    Object obj;
-    if ((obj = adminRepository.findAdminByNameAndPwd(username, pwd)) != null) {
+  public Role login(String username, String pwd) {
+    Role role;
+    if ((role = adminRepository.findAdminByNameAndPwd(username, pwd)) != null) {
       log.info("a administer has logged in");
-      return obj;
+      return role;
     }
-    else if ((obj = teacherRepository.findAdminByNameAndPwd(username, pwd)) != null) {
+    else if ((role = teacherRepository.findAdminByNameAndPwd(username, pwd)) != null) {
       log.info("a teacher has logged in");
-      return obj;
-    } else if ((obj = studentRepository.findAdminByNameAndPwd(username, pwd)) != null) {
+      return role;
+    } else if ((role = studentRepository.findAdminByNameAndPwd(username, pwd)) != null) {
       log.info("a student has logged in");
-      return obj;
+      return role;
     }
     throw new ExamException(ExceptionEnum.USER_NOT_FIND);
   }

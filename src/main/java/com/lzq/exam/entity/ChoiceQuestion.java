@@ -1,5 +1,6 @@
 package com.lzq.exam.entity;
 
+import com.lzq.exam.common.Question;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "choice_question")
 @Data
-public class ChoiceQuestion {
+public class ChoiceQuestion extends Question {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "choice_id")

@@ -1,5 +1,6 @@
 package com.lzq.exam.entity;
 
+import com.lzq.exam.common.Question;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "subjective_question")
 @Data
-public class SubjectiveQuestion {
+public class SubjectiveQuestion extends Question {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "subjective_id")

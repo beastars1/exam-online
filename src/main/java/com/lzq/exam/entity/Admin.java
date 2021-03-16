@@ -1,5 +1,7 @@
 package com.lzq.exam.entity;
 
+import com.lzq.exam.common.Role;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "admin")
-public class Admin {
+public class Admin extends Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "admin_id")

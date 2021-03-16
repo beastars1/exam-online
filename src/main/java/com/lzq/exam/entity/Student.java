@@ -1,5 +1,6 @@
 package com.lzq.exam.entity;
 
+import com.lzq.exam.common.Role;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "student")
 @Data
-public class Student {
+public class Student extends Role {
   @Id
   @Column(name = "student_id")
   private Long id;
