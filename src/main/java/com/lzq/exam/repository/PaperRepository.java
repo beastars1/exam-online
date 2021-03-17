@@ -15,5 +15,8 @@ public interface PaperRepository extends JpaRepository<Paper, Long> {
    */
   List<Paper> findByPaperId(Long paperId);
 
+  /**
+   * 来判断是不是已经存在要插入的问题
+   */
   Paper findByPaperIdAndTypeAndQuestionId(Long paperId, Integer type, Long quesId);
 }
