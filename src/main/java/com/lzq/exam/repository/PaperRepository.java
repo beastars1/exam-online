@@ -2,7 +2,6 @@ package com.lzq.exam.repository;
 
 import com.lzq.exam.entity.Paper;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

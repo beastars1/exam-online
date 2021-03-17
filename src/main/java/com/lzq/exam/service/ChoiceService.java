@@ -2,8 +2,12 @@ package com.lzq.exam.service;
 
 import com.lzq.exam.entity.ChoiceQuestion;
 import com.lzq.exam.repository.ChoiceRepository;
+import com.lzq.exam.vo.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,5 +63,22 @@ public class ChoiceService {
   public void saveChoice(ChoiceQuestion choice) {
     log.info("[choice] save a new choice");
     choiceRepository.save(choice);
+  }
+
+  /**
+   * 分页查询选择题信息
+   *
+   * @param page 第几页，从0开始
+   * @param size 每页的大小
+   * @return 自定义分页视图模型
+   */
+  public PageResult<ChoiceQuestion> findChoiceByPage(Integer page, Integer size) {
+    Page<ChoiceQuestion> pages = choiceRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "id"));
+    List<ChoiceQuestion> choices = pages.getContent();
+    long totalElements = pages.getTotalElements();
+    int pageSize = pages.getNumberOfElements();
+    int pageNumber = pages.getNumber();
+    log.info("[choice] query choices by page : {} ,size : {}", page + 1, size);
+    return new PageResult<>(totalElements, choices, pageNumber, pageSize);
   }
 }

@@ -2,8 +2,12 @@ package com.lzq.exam.service;
 
 import com.lzq.exam.entity.JudgeQuestion;
 import com.lzq.exam.repository.JudgeRepository;
+import com.lzq.exam.vo.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,5 +61,22 @@ public class JudgeService {
   public void saveJudge(JudgeQuestion judge) {
     log.info("[judge] save a new judge question");
     judgeRepository.save(judge);
+  }
+
+  /**
+   * 分页查询判断题信息
+   *
+   * @param page 第几页，从0开始
+   * @param size 每页的大小
+   * @return 自定义分页视图模型
+   */
+  public PageResult<JudgeQuestion> findJudgeByPage(Integer page, Integer size) {
+    Page<JudgeQuestion> pages = judgeRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "id"));
+    List<JudgeQuestion> fills = pages.getContent();
+    long totalElements = pages.getTotalElements();
+    int pageSize = pages.getNumberOfElements();
+    int pageNumber = pages.getNumber();
+    log.info("[judge] query judges by page : {} ,size : {}", page + 1, size);
+    return new PageResult<>(totalElements, fills, pageNumber, pageSize);
   }
 }
