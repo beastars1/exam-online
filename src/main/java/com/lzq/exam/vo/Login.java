@@ -1,4 +1,4 @@
-package com.lzq.exam.entity;
+package com.lzq.exam.vo;
 
 import lombok.Getter;
 

@@ -18,6 +18,9 @@ public enum ExceptionEnum {
   TEACHER_NOT_FIND(404, "教师不存在"),
   EXAM_NOT_FIND(404, "考试不存在"),
   USER_NOT_FIND(404, "用户名或密码错误"),
+  CHOICE_NOT_ENOUGH(500, "题库选择题数量不足"),
+  FILL_NOT_ENOUGH(500, "题库填空题数量不足"),
+  JUDGE_NOT_ENOUGH(500, "题库判断题数量不足"),
   ;
   private Integer code;
   private String msg;

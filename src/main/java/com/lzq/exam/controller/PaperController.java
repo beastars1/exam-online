@@ -1,13 +1,8 @@
 package com.lzq.exam.controller;
 
-import com.lzq.exam.entity.ChoiceQuestion;
-import com.lzq.exam.entity.FillQuestion;
-import com.lzq.exam.entity.JudgeQuestion;
 import com.lzq.exam.entity.Paper;
-import com.lzq.exam.service.ChoiceService;
-import com.lzq.exam.service.FillService;
-import com.lzq.exam.service.JudgeService;
 import com.lzq.exam.service.PaperService;
+import com.lzq.exam.vo.PaperItems;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +49,15 @@ public class PaperController {
   @PostMapping
   public ResponseEntity<Void> savePaper(@RequestBody Paper paper) {
     paperService.savePaper(paper);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
+  /**
+   * 从题库中抽取问题，并组装到一张试卷中
+   */
+  @PostMapping("/assembly")
+  public ResponseEntity<Void> assemblePaper(@RequestBody PaperItems items) {
+    paperService.assemblePaper(items);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 }

@@ -27,7 +27,7 @@ public class Paper {
   @Column(name = "paper_id")
   private Long paperId;
 
-  /** 问题类型 */
+  /** 问题类型：1，选择题；2，填空题；3，判断题；4，主观题 */
   @Column(name = "question_type")
   private Integer type;
 
@@ -35,10 +35,19 @@ public class Paper {
   @Column(name = "question_id")
   private Long questionId;
 
-  /**
-   * 试卷中的问题集合
-   * key：问题类型
-   * value：该类型下的问题的编号集合
-   */
-//  private Map<Integer, List<Long>> questions;
+  public Paper() {
+  }
+
+  public Paper(Long paperId, Integer type, Long questionId) {
+    this.paperId = paperId;
+    this.type = type;
+    this.questionId = questionId;
+  }
+
+  public Paper(Long id, Long paperId, Integer type, Long questionId) {
+    this.id = id;
+    this.paperId = paperId;
+    this.type = type;
+    this.questionId = questionId;
+  }
 }

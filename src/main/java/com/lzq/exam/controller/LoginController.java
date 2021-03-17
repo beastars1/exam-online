@@ -1,7 +1,7 @@
 package com.lzq.exam.controller;
 
 import com.lzq.exam.common.Role;
-import com.lzq.exam.entity.Login;
+import com.lzq.exam.vo.Login;
 import com.lzq.exam.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
