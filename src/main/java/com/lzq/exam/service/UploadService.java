@@ -51,12 +51,6 @@ public class UploadService {
       file.transferTo(targetFile);
       log.info("[upload] student id : {} avatar name : {} in : {}", id, fileName, targetFile.getPath());
 
-      if (targetFile.exists()) {
-        Student student = studentService.findStudentById(id);
-        student.setAvatar(url + fileName);
-        log.info("[upload] db url : {}", url + fileName);
-      }
-
       return url + fileName;
     } catch (IOException e) {
       e.printStackTrace();

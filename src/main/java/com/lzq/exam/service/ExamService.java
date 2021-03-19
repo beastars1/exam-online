@@ -33,7 +33,7 @@ public class ExamService {
    * @return 自定义分页视图模型
    */
   public PageResult<Exam> findExamByPage(Integer page, Integer size) {
-    Page<Exam> pages = examRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "id"));
+    Page<Exam> pages = examRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "examId"));
     List<Exam> exams = pages.getContent();
     long totalElements = pages.getTotalElements();
     int pageSize = pages.getNumberOfElements();
