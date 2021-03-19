@@ -36,10 +36,9 @@ public class ExamService {
     Page<Exam> pages = examRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "examId"));
     List<Exam> exams = pages.getContent();
     long totalElements = pages.getTotalElements();
-    int pageSize = pages.getNumberOfElements();
     int pageNumber = pages.getNumber();
     log.info("[exam] query exams by page : {} ,size : {}", page + 1, size);
-    return new PageResult<>(totalElements, exams, pageNumber, pageSize);
+    return new PageResult<>(totalElements, exams, pageNumber, size);
   }
 
   /**

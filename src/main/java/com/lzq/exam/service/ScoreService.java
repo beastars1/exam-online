@@ -53,10 +53,9 @@ public class ScoreService {
       .findAll(example, PageRequest.of(page, size, Sort.Direction.DESC, "score"));
     List<Score> scores = pages.getContent();
     long totalElements = pages.getTotalElements();
-    int pageSize = pages.getNumberOfElements();
     int pageNumber = pages.getNumber();
     log.info("[score] query scores by page : {} ,size : {}", page + 1, size);
-    return new PageResult<>(totalElements, scores, pageNumber, pageSize);
+    return new PageResult<>(totalElements, scores, pageNumber, size);
   }
 
   /**

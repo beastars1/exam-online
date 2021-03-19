@@ -74,9 +74,8 @@ public class JudgeService {
     Page<JudgeQuestion> pages = judgeRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "id"));
     List<JudgeQuestion> fills = pages.getContent();
     long totalElements = pages.getTotalElements();
-    int pageSize = pages.getNumberOfElements();
     int pageNumber = pages.getNumber();
     log.info("[judge] query judges by page : {} ,size : {}", page + 1, size);
-    return new PageResult<>(totalElements, fills, pageNumber, pageSize);
+    return new PageResult<>(totalElements, fills, pageNumber, size);
   }
 }

@@ -76,9 +76,8 @@ public class ChoiceService {
     Page<ChoiceQuestion> pages = choiceRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "id"));
     List<ChoiceQuestion> choices = pages.getContent();
     long totalElements = pages.getTotalElements();
-    int pageSize = pages.getNumberOfElements();
     int pageNumber = pages.getNumber();
     log.info("[choice] query choices by page : {} ,size : {}", page + 1, size);
-    return new PageResult<>(totalElements, choices, pageNumber, pageSize);
+    return new PageResult<>(totalElements, choices, pageNumber, size);
   }
 }

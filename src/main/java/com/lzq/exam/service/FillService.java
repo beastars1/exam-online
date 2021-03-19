@@ -76,9 +76,8 @@ public class FillService {
     Page<FillQuestion> pages = fillRepository.findAll(PageRequest.of(page, size, Sort.Direction.ASC, "id"));
     List<FillQuestion> fills = pages.getContent();
     long totalElements = pages.getTotalElements();
-    int pageSize = pages.getNumberOfElements();
     int pageNumber = pages.getNumber();
     log.info("[fill] query fills by page : {} ,size : {}", page + 1, size);
-    return new PageResult<>(totalElements, fills, pageNumber, pageSize);
+    return new PageResult<>(totalElements, fills, pageNumber, size);
   }
 }

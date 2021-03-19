@@ -36,28 +36,35 @@ public class QuestionVoService {
   public PageResult<QuestionView> findAllQuestionsByPage(Integer page, Integer size) {
     // 所有问题的列表
     List<QuestionView> questions = new ArrayList<>();
+    // 每个题库分别查询一部分
+    Integer childSize = size / 3;
 
     // 查询填空题并转换成问题视图模型，添加到问题列表中
-    PageResult<FillQuestion> fillByPage = fillService.findFillByPage(page, size);
+    PageResult<FillQuestion> fillByPage = fillService.findFillByPage(page, childSize);
     fillByPage.getRecords().forEach(fill -> {
       questions.add(new QuestionView(fill.getQuestion(), fill.getCourse(), fill.getScore(), "填空题"));
     });
+    Long fillTotal = fillByPage.getTotal();
 
     // 查询选择题并转换成问题视图模型，添加到问题列表中
-    PageResult<ChoiceQuestion> choiceByPage = choiceService.findChoiceByPage(page, size);
-    fillByPage.getRecords().forEach(choice -> {
-      questions.add(new QuestionView(choice.getQuestion(), choice.getCourse(), choice.getScore(), "填空题"));
+    PageResult<ChoiceQuestion> choiceByPage = choiceService.findChoiceByPage(page, childSize);
+    choiceByPage.getRecords().forEach(choice -> {
+      questions.add(new QuestionView(choice.getQuestion(), choice.getCourse(), choice.getScore(), "选择题"));
     });
+    Long choiceTotal = choiceByPage.getTotal();
 
     // 查询判断题并转换成问题视图模型，添加到问题列表中
-    PageResult<JudgeQuestion> judgeByPage = judgeService.findJudgeByPage(page, size);
-    fillByPage.getRecords().forEach(judge -> {
+    PageResult<JudgeQuestion> judgeByPage = judgeService.findJudgeByPage(page, childSize);
+    judgeByPage.getRecords().forEach(judge -> {
       questions.add(new QuestionView(judge.getQuestion(), judge.getCourse(), judge.getScore(), "判断题"));
     });
+    Long judgeTotal = judgeByPage.getTotal();
 
     log.info("[answer] query all questions by page : {} ,size : {}", page + 1, size);
 
+    // 总的条目数量
+    Long total = fillTotal + choiceTotal + judgeTotal;
     // 拼装分页视图模型返回
-    return new PageResult<>((long) questions.size(), questions, page, size);
+    return new PageResult<>(total, questions, page, size);
   }
 }

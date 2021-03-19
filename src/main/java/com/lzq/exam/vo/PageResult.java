@@ -22,7 +22,7 @@ public class PageResult<T> {
   public PageResult(Long total, List<T> records, int current, int size) {
     this.total = total;
     this.records = records;
-    this.current = current;
+    this.current = current + 1;
     this.size = size;
   }
 }
