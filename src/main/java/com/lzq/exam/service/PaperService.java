@@ -64,9 +64,6 @@ public class PaperService {
     map.put(1, choice);
     map.put(2, fill);
     map.put(3, judge);
-    System.out.println(choice);
-    System.out.println(fill);
-    System.out.println(judge);
 //    map.put(4, subjective);
     return map;
   }

@@ -37,4 +37,7 @@ public class Score {
 
   @Column
   private Integer score;
+
+  @Column
+  private String answerDate;
 }
