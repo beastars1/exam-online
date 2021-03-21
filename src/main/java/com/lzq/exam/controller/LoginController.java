@@ -21,8 +21,7 @@ public class LoginController {
 
   @PostMapping
   public ResponseEntity<Role> login(@RequestBody Login login) {
-    Role body = loginService.login(login.getUsername(), login.getPwd());
-    System.out.println(body);
+    Role body = loginService.login(login.getId(), login.getPwd());
     return ResponseEntity.ok(body);
   }
 }

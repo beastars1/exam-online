@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface StudentRepository extends JpaRepository<Student, Long> {
   /**
-   * 根据用户名和密码查询学生
+   * 根据学号和密码查询学生
    */
-  Student findAdminByNameAndPwd(String name, String pwd);
+  Student findByIdAndPwd(Long id, String pwd);
 }

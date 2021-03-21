@@ -2,7 +2,6 @@ package com.lzq.exam.service;
 
 import com.lzq.exam.common.ExamException;
 import com.lzq.exam.common.ExceptionEnum;
-import com.lzq.exam.common.Question;
 import com.lzq.exam.entity.ChoiceQuestion;
 import com.lzq.exam.entity.FillQuestion;
 import com.lzq.exam.entity.JudgeQuestion;
@@ -65,6 +64,9 @@ public class PaperService {
     map.put(1, choice);
     map.put(2, fill);
     map.put(3, judge);
+    System.out.println(choice);
+    System.out.println(fill);
+    System.out.println(judge);
 //    map.put(4, subjective);
     return map;
   }

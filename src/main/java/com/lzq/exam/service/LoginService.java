@@ -25,17 +25,17 @@ public class LoginService {
   @Autowired
   private StudentRepository studentRepository;
 
-  public Role login(String username, String pwd) {
+  public Role login(Long id, String pwd) {
     Role role;
-    if ((role = adminRepository.findAdminByNameAndPwd(username, pwd)) != null) {
-      log.info("a administer has logged in");
+    if ((role = adminRepository.findByIdAndPwd(id, pwd)) != null) {
+      log.info("[login] a administer has logged in");
       return role;
     }
-    else if ((role = teacherRepository.findAdminByNameAndPwd(username, pwd)) != null) {
-      log.info("a teacher has logged in");
+    else if ((role = teacherRepository.findByIdAndPwd(id, pwd)) != null) {
+      log.info("[login] a teacher has logged in");
       return role;
-    } else if ((role = studentRepository.findAdminByNameAndPwd(username, pwd)) != null) {
-      log.info("a student has logged in");
+    } else if ((role = studentRepository.findByIdAndPwd(id, pwd)) != null) {
+      log.info("[login] a student has logged in");
       return role;
     }
     throw new ExamException(ExceptionEnum.USER_NOT_FIND);

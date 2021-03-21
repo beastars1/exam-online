@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
   /**
-   * 根据用户名和密码查询教师
+   * 根据工号和密码查询教师
    */
-  Teacher findAdminByNameAndPwd(String name, String pwd);
+  Teacher findByIdAndPwd(Long id, String pwd);
 }
