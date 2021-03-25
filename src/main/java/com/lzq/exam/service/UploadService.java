@@ -27,6 +27,7 @@ public class UploadService {
    *
    * @param file 头像文件
    * @param id   用户的id
+   * @return 保存的头像地址
    */
   @Transactional
   public String uploadAvatar(MultipartFile file, Long id, HttpServletRequest request) {
