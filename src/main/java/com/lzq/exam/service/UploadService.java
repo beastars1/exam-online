@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.UUID;
 
 /**
@@ -21,6 +22,9 @@ import java.util.UUID;
 public class UploadService {
   @Autowired
   private StudentService studentService;
+
+  @Autowired
+  private FaceService faceService;
 
   /**
    * 上传用户头像
@@ -33,8 +37,8 @@ public class UploadService {
   public String uploadAvatar(MultipartFile file, Long id, HttpServletRequest request) {
     try {
       String path = ResourceUtils.getURL("classpath:").getPath() + "static/avatar/";
-      System.out.println(path);
       // 保存到数据库的头像地址
+      path = URLDecoder.decode(path, "utf-8");
       String url = request.getContextPath() + "/api/avatar/";
       File filePath = new File(path);
       log.info("[upload] 文件的保存路径 : {}", path);
@@ -46,11 +50,14 @@ public class UploadService {
       String originalFileName = file.getOriginalFilename();
       //获取文件类型，以最后一个`.`为标识
       String type = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-      String fileName  = UUID.randomUUID().toString() + "." + type;
+      String fileName = UUID.randomUUID().toString() + "." + type;
       //在指定路径下创建一个文件
       File targetFile = new File(path, fileName);
       file.transferTo(targetFile);
       log.info("[upload] student id : {} avatar name : {} in : {}", id, fileName, targetFile.getPath());
+
+      // 识别头像人脸特征，并添加到特征库
+      faceService.faceAdd(targetFile, id);
 
       return url + fileName;
     } catch (IOException e) {

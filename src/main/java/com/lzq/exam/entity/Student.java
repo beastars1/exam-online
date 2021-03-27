@@ -2,6 +2,7 @@ package com.lzq.exam.entity;
 
 import com.lzq.exam.common.Role;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
  *
  * @author beastars
  */
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "student")
 @Data

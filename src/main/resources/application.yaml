@@ -16,3 +16,11 @@ spring:
       hibernate:
         # 懒加载
         enable_lazy_load_no_trans: true
+
+# 人脸识别
+config:
+  arcface-sdk:
+    sdk-lib-path: d:/arcsoft_lib
+    app-id: EqUBNAaUpPGT5da8NZ7aKC2wjHQgnxjJGPaJuWSpnw4b
+    sdk-key: HH52Lrh1UsV5yDVyPkNHWUUpr4AG4Vn7vLSfRRddz13f
+    thread-pool-size: 5
