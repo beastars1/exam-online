@@ -81,8 +81,10 @@ public class StudentService {
    * 更新学生密码
    */
   @Transactional
-  public void updateStudentPwd(Student student) {
-    log.info("[student] update a student password whose id : {}", student.getId());
+  public void updateStudentPwd(String pwd, Long studentId) {
+    log.info("[student] update a student password whose id : {}", studentId);
+    Student student = findStudentById(studentId);
+    student.setPwd(pwd);
     studentRepository.saveAndFlush(student);
   }
 }

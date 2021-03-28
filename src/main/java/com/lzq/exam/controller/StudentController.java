@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @author beastars
  */
@@ -78,8 +80,13 @@ public class StudentController {
   /**
    * 更新学生密码
    */
-  public ResponseEntity<Void> updateStudentPwd(@RequestBody Student student) {
-    studentService.updateStudentPwd(student);
+  @PutMapping("/{studentId}")
+  public ResponseEntity<Void> updateStudentPwd(
+    @RequestBody Map<String, String> body,
+    @PathVariable Long studentId
+  ) {
+    String pwd = body.get("pwd");
+    studentService.updateStudentPwd(pwd, studentId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
