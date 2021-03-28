@@ -1,6 +1,5 @@
 package com.lzq.exam.service;
 
-import com.lzq.exam.entity.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,6 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class UploadService {
-  @Autowired
-  private StudentService studentService;
 
   @Autowired
   private FaceService faceService;
@@ -37,7 +34,7 @@ public class UploadService {
   public String uploadAvatar(MultipartFile file, Long id, HttpServletRequest request) {
     try {
       String path = ResourceUtils.getURL("classpath:").getPath() + "static/avatar/";
-      // 保存到数据库的头像地址
+      // 保存到数据库的头像地址，将网络地址(%ad%sd...)转换成中文，防止乱码
       path = URLDecoder.decode(path, "utf-8");
       String url = request.getContextPath() + "/api/avatar/";
       File filePath = new File(path);
@@ -50,7 +47,8 @@ public class UploadService {
       String originalFileName = file.getOriginalFilename();
       //获取文件类型，以最后一个`.`为标识
       String type = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-      String fileName = UUID.randomUUID().toString() + "." + type;
+      String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+      String fileName = uuid + "." + type;
       //在指定路径下创建一个文件
       File targetFile = new File(path, fileName);
       file.transferTo(targetFile);

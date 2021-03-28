@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum ExceptionEnum {
+  UNKNOWN_EXCEPTION(500, "未知异常"),
   ADMIN_NOT_FIND(404, "管理员不存在"),
   STUDENT_NOT_FIND(404, "学生不存在"),
   TEACHER_NOT_FIND(404, "教师不存在"),
@@ -23,6 +24,7 @@ public enum ExceptionEnum {
   JUDGE_NOT_ENOUGH(500, "题库判断题数量不足"),
   AVATAR_PATH_IS_NULL(500, "头像路径为空"),
   NO_FACE_DETECTED(500, "未检测到人类"),
+  BASE64_ERROR(500, "图片base64值错误"),
   ;
   private Integer code;
   private String msg;

@@ -22,9 +22,6 @@ public class UserFaceInfo {
   @Column(name = "student_id")
   private Long studentId;
 
-  @Column(name = "group_id")
-  private Integer groupId;
-
   @Column(name = "face_id")
   private String faceId;
 

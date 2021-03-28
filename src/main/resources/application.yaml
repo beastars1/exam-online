@@ -24,3 +24,5 @@ config:
     app-id: EqUBNAaUpPGT5da8NZ7aKC2wjHQgnxjJGPaJuWSpnw4b
     sdk-key: HH52Lrh1UsV5yDVyPkNHWUUpr4AG4Vn7vLSfRRddz13f
     thread-pool-size: 5
+    # 人脸相似预期值，认为只要相似度大于该值就是同一个人
+    pass-rate: 70

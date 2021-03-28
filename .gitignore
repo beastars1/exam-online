@@ -3,6 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 src/test/
+ArcFace64.dat
 
 ### STS ###
 .apt_generated

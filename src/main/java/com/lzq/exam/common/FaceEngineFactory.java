@@ -31,7 +31,6 @@ public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
   @Override
   public FaceEngine create() throws Exception {
     FaceEngine faceEngine = new FaceEngine(sdkLibPath);
-    //-=======================
     int activeCode = faceEngine.activeOnline(appId, sdkKey);
     log.info("faceEngineActiveCode : {} ", activeCode);
     int initCode = faceEngine.init(engineConfiguration);
