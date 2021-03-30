@@ -23,8 +23,9 @@ public enum ExceptionEnum {
   FILL_NOT_ENOUGH(500, "题库填空题数量不足"),
   JUDGE_NOT_ENOUGH(500, "题库判断题数量不足"),
   AVATAR_PATH_IS_NULL(500, "头像路径为空"),
-  NO_FACE_DETECTED(500, "未检测到人类"),
+  NO_FACE_DETECTED(500, "未检测到人脸"),
   BASE64_ERROR(500, "图片base64值错误"),
+  FIND_MULTIPLE_FACES(500, "识别出多个人脸"),
   ;
   private Integer code;
   private String msg;

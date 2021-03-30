@@ -6,6 +6,7 @@ import com.arcsoft.face.FaceFeature;
 import com.arcsoft.face.FaceInfo;
 import com.arcsoft.face.FaceSimilar;
 import com.arcsoft.face.FunctionConfiguration;
+import com.arcsoft.face.LivenessInfo;
 import com.arcsoft.face.enums.DetectMode;
 import com.arcsoft.face.enums.DetectOrient;
 import com.arcsoft.face.toolkit.ImageInfo;
@@ -97,6 +98,13 @@ public class FaceEngineService {
         faceInfoList // 检测到的人脸信息会输出到该列表中
       );
 
+      // 判断图片中是否只有一个人
+      int peopleCount = howManyInImage(faceEngine, imageInfo, faceInfoList);
+      if (peopleCount > 1) // 说明检测出了多个人脸
+        throw new ExamException(ExceptionEnum.FIND_MULTIPLE_FACES);
+      else if (peopleCount < 1) // 说明没有检测到人脸
+        throw new ExamException(ExceptionEnum.NO_FACE_DETECTED);
+
       // 返回值为0表示成功
       if (code == 0) {
         FaceFeature faceFeature = new FaceFeature();
@@ -113,7 +121,7 @@ public class FaceEngineService {
         return faceFeature.getFeatureData();
       }
     } catch (Exception e) {
-      log.error("", e);
+      log.error("[face] unknown exception : {}", e.fillInStackTrace().getMessage());
     } finally {
       if (faceEngine != null) {
         //释放引擎对象
@@ -133,28 +141,86 @@ public class FaceEngineService {
    * @return 是否是同一个人
    */
   public boolean compareFaceFeature(byte[] faceFeature, UserFaceInfo studentFaceInfo) {
-    // 设置要比较的目标特征，即摄像头抓取到的图像
-    FaceFeature targetFaceFeature = new FaceFeature();
-    targetFaceFeature.setFeatureData(faceFeature);
     // 获取人脸引擎
-    FaceEngine faceEngine;
+    FaceEngine faceEngine = null;
     try {
       faceEngine = faceEngineObjectPool.borrowObject();
+
+      // 设置要比较的目标特征，即摄像头抓取到的图像
+      FaceFeature targetFaceFeature = new FaceFeature();
+      targetFaceFeature.setFeatureData(faceFeature);
+      // 设置要比较的源特征，即该学生在数据库的人脸特征
+      FaceFeature sourceFaceFeature = new FaceFeature();
+      sourceFaceFeature.setFeatureData(studentFaceInfo.getFaceFeature());
+      // 比对相似度
+      FaceSimilar faceSimilar = new FaceSimilar();
+      faceEngine.compareFaceFeature(targetFaceFeature, sourceFaceFeature, faceSimilar);
+      // 获取相似值
+      int similarValue = plusHundred(faceSimilar.getScore());
+      log.info("[face] the image's similar value : {}", similarValue);
+      // 相似值大于配置预期，就认为是同一个人
+      return similarValue > passRate;
     } catch (Exception e) {
-      log.error("[face] unknown exception : {}", e.getMessage());
+      log.error("[face] unknown exception : {}", e.fillInStackTrace().toString());
       throw new ExamException(ExceptionEnum.UNKNOWN_EXCEPTION);
+    } finally {
+      faceEngineObjectPool.returnObject(faceEngine);
     }
-    // 设置要比较的源特征，即该学生在数据库的人脸特征
-    FaceFeature sourceFaceFeature = new FaceFeature();
-    sourceFaceFeature.setFeatureData(studentFaceInfo.getFaceFeature());
-    // 比对相似度
-    FaceSimilar faceSimilar = new FaceSimilar();
-    faceEngine.compareFaceFeature(targetFaceFeature, sourceFaceFeature, faceSimilar);
-    // 获取相似值
-    int similarValue = plusHundred(faceSimilar.getScore());
-    log.info("[face] the image's similar value : {}", similarValue);
-    // 相似值大于配置预期，就认为是同一个人
-    return similarValue > passRate;
+  }
+
+  public boolean compareFaceFeatureByCache(byte[] faceFeature, byte[] cacheFeature) {
+    // 获取人脸引擎
+    FaceEngine faceEngine = null;
+    try {
+      faceEngine = faceEngineObjectPool.borrowObject();
+      // 设置要比较的目标特征，即摄像头抓取到的图像
+      FaceFeature targetFaceFeature = new FaceFeature();
+      targetFaceFeature.setFeatureData(cacheFeature);
+      // 设置要比较的源特征，即该学生在数据库的人脸特征
+      FaceFeature sourceFaceFeature = new FaceFeature();
+      sourceFaceFeature.setFeatureData(faceFeature);
+      // 比对相似度
+      FaceSimilar faceSimilar = new FaceSimilar();
+      faceEngine.compareFaceFeature(targetFaceFeature, sourceFaceFeature, faceSimilar);
+      // 获取相似值
+      int similarValue = plusHundred(faceSimilar.getScore());
+      log.info("[face] the image's similar value : {}", similarValue);
+      // 相似值大于配置预期，就认为是同一个人
+      return similarValue > passRate;
+    } catch (Exception e) {
+      log.error("[face] unknown exception : {}", e.fillInStackTrace().toString());
+      throw new ExamException(ExceptionEnum.UNKNOWN_EXCEPTION);
+    } finally {
+      faceEngineObjectPool.returnObject(faceEngine);
+    }
+  }
+
+  /**
+   * 判断图片中检测出几个人
+   *
+   * @param imageInfo    图片信息
+   * @param faceInfoList 人脸信息列表
+   * @return 有几个人
+   */
+  public int howManyInImage(FaceEngine faceEngine, ImageInfo imageInfo, List<FaceInfo> faceInfoList) {
+    // 人脸属性检测
+    faceEngine.process(
+      imageInfo.getImageData(),
+      imageInfo.getWidth(),
+      imageInfo.getHeight(),
+      imageInfo.getImageFormat(),
+      faceInfoList,
+      FunctionConfiguration.builder()
+        .supportLiveness(true) // 支持活体识别
+        .build()
+    );
+
+    // 活体检测
+    List<LivenessInfo> livenessInfoList = new ArrayList<>();
+    faceEngine.getLiveness(livenessInfoList);
+    System.out.println(livenessInfoList.size());
+    livenessInfoList.forEach(System.out::println);
+    return livenessInfoList.size();
   }
 
   /**

@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -84,34 +86,73 @@ public class FaceService {
    * 人脸识别，检测是否和照片是同一个人
    *
    * @param file 要识别的图片的base64码
-   * @return 是否是同一个人
+   * @return 将这次判断的特征值返回过去，这样下次同一个人比较就不需要多次查询数据库了
    */
-  public boolean faceSearch(String file, Long studentId) {
+  public String faceSearchById(String file, Long studentId) {
     UserFaceInfo studentFaceInfo = userFaceInfoRepository.findByStudentId(studentId);
     if (studentFaceInfo.getFaceFeature() == null) {
       log.info("[face] cannot find face feature whose student id : {}", studentId);
+      return null;
+    }
+
+    try {
+      byte[] feature = getFeatureFromImage(file);
+      // 比较人脸特征
+      if (faceEngineService.compareFaceFeature(feature, studentFaceInfo)) {
+        // 如果为true，说明是同一个人，将该学生数据库中的特征值返回给前端
+        return Arrays.toString(feature);
+      }
+      // 如果前端发现返回的是null，说明不是同一个人
+      return null;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
+  /**
+   * 人脸识别，检测是否和照片是同一个人
+   *
+   * @param file         要识别的图片的base64码
+   * @param cacheFeature 传入的特征码，减少查询数据库操作
+   * @return 是否是同一个人
+   */
+  public boolean faceSearchByFeature(String file, byte[] cacheFeature) {
+    if (cacheFeature == null) {
+      log.info("[face] cache feature must not be null");
       return false;
     }
 
     try {
       // 使用base64解码图片
-      byte[] bytes = Base64Utils.decodeFromString(base64Process(file));
-      BufferedImage bufImage = ImageIO.read(new ByteArrayInputStream(bytes));
-      // 转化成sdk识别需要的类型
-      ImageInfo imageInfo = ImageFactory.bufferedImage2ImageInfo(bufImage);
-
-      // 抽取图片的人脸特征
-      byte[] feature = faceEngineService.extractFaceFeature(imageInfo);
-      if (feature == null)
-        throw new ExamException(ExceptionEnum.NO_FACE_DETECTED);
-
+      byte[] feature = getFeatureFromImage(file);
       // 比较人脸特征
-      return faceEngineService.compareFaceFeature(feature, studentFaceInfo);
+      return faceEngineService.compareFaceFeatureByCache(
+        feature, cacheFeature
+      );
     } catch (IOException e) {
       e.printStackTrace();
     }
 
     return false;
+  }
+
+  /**
+   * 将文件解码为byte数组
+   */
+  private byte[] getFeatureFromImage(String file) throws IOException {
+    // 使用base64解码图片
+    byte[] bytes = Base64Utils.decodeFromString(base64Process(file));
+    BufferedImage bufImage = ImageIO.read(new ByteArrayInputStream(bytes));
+    // 转化成sdk识别需要的类型
+    ImageInfo imageInfo = ImageFactory.bufferedImage2ImageInfo(bufImage);
+
+    // 抽取图片的人脸特征
+    byte[] feature = faceEngineService.extractFaceFeature(imageInfo);
+    if (feature == null)
+      throw new ExamException(ExceptionEnum.NO_FACE_DETECTED);
+    return feature;
   }
 
   /**
