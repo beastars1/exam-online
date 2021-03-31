@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Score {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "socre_id")
+  @Column(name = "score_id")
   private Long scoreId;
 
   /** 考试编号，该成绩是哪一个考试的 */

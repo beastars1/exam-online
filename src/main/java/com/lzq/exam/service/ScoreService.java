@@ -39,7 +39,7 @@ public class ScoreService {
     Score score = new Score();
     score.setStudentId(studentId);
     Example<Score> example = Example.of(score);
-    return scoreRepository.findAll(example, Sort.by(Sort.Direction.DESC, "score"));
+    return scoreRepository.findAll(example);
   }
 
   /**
@@ -50,7 +50,7 @@ public class ScoreService {
     score.setStudentId(studentId);
     Example<Score> example = Example.of(score);
     Page<Score> pages = scoreRepository
-      .findAll(example, PageRequest.of(page, size, Sort.Direction.DESC, "score"));
+      .findAll(example, PageRequest.of(page, size));
     List<Score> scores = pages.getContent();
     long totalElements = pages.getTotalElements();
     int pageNumber = pages.getNumber();

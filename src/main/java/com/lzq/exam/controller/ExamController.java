@@ -92,4 +92,12 @@ public class ExamController {
   public ResponseEntity<Exam> findLastExam() {
     return ResponseEntity.ok(examService.findLastExam());
   }
+
+  /**
+   * 根据考试id列表查询考试详情
+   */
+  @PostMapping("/exams")
+  public ResponseEntity<List<Exam>> findExamsByIds(@RequestBody List<Long> ids) {
+    return ResponseEntity.ok(examService.findExamsByIds(ids));
+  }
 }

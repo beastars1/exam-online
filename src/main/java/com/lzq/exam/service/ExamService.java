@@ -92,4 +92,12 @@ public class ExamService {
     log.info("[exam] find last exam");
     return examRepository.findLastExam();
   }
+
+  /**
+   * 根据考试id列表查询考试详情
+   */
+  public List<Exam> findExamsByIds(List<Long> ids) {
+    log.info("[exam] find exams by exam ids");
+    return examRepository.findAllById(ids);
+  }
 }
