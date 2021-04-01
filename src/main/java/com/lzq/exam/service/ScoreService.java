@@ -55,7 +55,23 @@ public class ScoreService {
     List<Score> scores = pages.getContent();
     long totalElements = pages.getTotalElements();
     int pageNumber = pages.getNumber();
-    log.info("[score] query scores by page : {} ,size : {}", page + 1, size);
+    log.info("[score] page query scores by student id : {}, page : {} ,size : {}", studentId, page + 1, size);
+    return new PageResult<>(totalElements, scores, pageNumber, size);
+  }
+
+  /**
+   * 分页查询对应考试id的所有成绩，并从大到小排列
+   */
+  public PageResult<Score> findPageByExamId(Long examId, Integer page, Integer size) {
+    Score score = new Score();
+    score.setExamId(examId);
+    Example<Score> example = Example.of(score);
+    Page<Score> pages = scoreRepository
+      .findAll(example, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "score")));
+    List<Score> scores = pages.getContent();
+    long totalElements = pages.getTotalElements();
+    int pageNumber = pages.getNumber();
+    log.info("[score] page query scores by exam id : {}, page : {} ,size : {}", examId, page + 1, size);
     return new PageResult<>(totalElements, scores, pageNumber, size);
   }
 

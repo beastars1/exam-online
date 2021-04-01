@@ -54,6 +54,18 @@ public class ScoreController {
   }
 
   /**
+   * 分页查询对应考试id的所有成绩，并从大到小排列
+   */
+  @GetMapping("/page/e/{examId}")
+  public ResponseEntity<PageResult<Score>> findPageByExamId(
+    @PathVariable("examId") Long examId,
+    @RequestParam(value = "page", defaultValue = "0") Integer page,
+    @RequestParam(value = "size", defaultValue = "10") Integer size
+  ) {
+    return ResponseEntity.ok(scoreService.findPageByExamId(examId, page, size));
+  }
+
+  /**
    * 根据考试编号查询每个学生的分数
    */
   @GetMapping("/e/{examId}")

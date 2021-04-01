@@ -11,8 +11,7 @@ import java.util.List;
  * @author beastars
  */
 public interface ScoreRepository extends JpaRepository<Score, Long> {
-  @Query(nativeQuery = true,
-    value = "select max(score) from score where :examId group by student_id")
+  @Query("select max(score.score) from Score score where score.examId = :examId group by score.studentId")
   List<Integer> findMaxScoreByExamIdGroupByStudentId(@Param("examId") Long examId);
 
   @Query("select score.examId from Score score where score.studentId = :studentId")
