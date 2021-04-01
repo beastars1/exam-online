@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,6 +68,21 @@ public class ScoreService {
     score.setExamId(examId);
     Example<Score> example = Example.of(score);
     return scoreRepository.findAll(example, Sort.by(Sort.Direction.ASC, "studentId"));
+  }
+
+  public List<Score> findMaxScoreByExamIdGroupByStudentId(Long examId) {
+    log.info("[score] query max scores by exam id : {}", examId);
+    List<Score> list = new ArrayList<>();
+    scoreRepository.findMaxScoreByExamIdGroupByStudentId(examId).forEach(score -> {
+      Score s = new Score();
+      s.setScore(score);
+      list.add(s);
+    });
+    return list;
+  }
+
+  public Boolean haveExam(Long examId, Long studentId) {
+    return scoreRepository.findExamIdsByStudentId(studentId).contains(examId);
   }
 
   /**

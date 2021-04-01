@@ -62,6 +62,22 @@ public class ScoreController {
   }
 
   /**
+   * 根据考试编号查询每个学生的分数
+   */
+  @GetMapping("/m/{examId}")
+  public ResponseEntity<List<Score>> findMaxScoreByExamId(@PathVariable("examId") Long examId) {
+    return ResponseEntity.ok(scoreService.findMaxScoreByExamIdGroupByStudentId(examId));
+  }
+
+  /**
+   * 根据学号和考试编号判断是否已经考过该次考试
+   */
+  @PostMapping("/d")
+  public ResponseEntity<Boolean> haveExam(Long examId, Long studentId) {
+    return ResponseEntity.ok(scoreService.haveExam(examId, studentId));
+  }
+
+  /**
    * 新增一个分数信息
    */
   @PostMapping

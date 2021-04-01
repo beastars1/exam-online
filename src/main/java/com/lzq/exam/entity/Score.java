@@ -35,6 +35,10 @@ public class Score {
   @Column(nullable = false)
   private String course;
 
+  /** 该次考试的名称 */
+  @Column
+  private String description;
+
   @Column
   private Integer score;
 

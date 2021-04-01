@@ -218,8 +218,7 @@ public class FaceEngineService {
     // 活体检测
     List<LivenessInfo> livenessInfoList = new ArrayList<>();
     faceEngine.getLiveness(livenessInfoList);
-    System.out.println(livenessInfoList.size());
-    livenessInfoList.forEach(System.out::println);
+    log.info("[face] {} faces are detected on the screen", livenessInfoList.size());
     return livenessInfoList.size();
   }
 
