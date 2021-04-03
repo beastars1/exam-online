@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 /**
  * 填空题，记录所有的填空题及其详情
+ * type: 2
  *
  * @author beastars
  */

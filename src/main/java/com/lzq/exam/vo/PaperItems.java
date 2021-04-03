@@ -11,6 +11,8 @@ import lombok.Data;
 public class PaperItems {
   /** 试卷编号 */
   private Long paperId;
+  /** 考试编号 */
+  private Long examId;
   /** 试卷属于哪一个课程 */
   private String course;
   /** 这张试卷的选择题数量 */

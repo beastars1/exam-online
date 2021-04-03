@@ -47,8 +47,9 @@ public class UploadService {
       String originalFileName = file.getOriginalFilename();
       //获取文件类型，以最后一个`.`为标识
       String type = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-      String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
-      String fileName = uuid + "." + type;
+//      String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+//      String fileName = uuid + "." + type;
+      String fileName = id + "." + type;
       //在指定路径下创建一个文件
       File targetFile = new File(path, fileName);
       file.transferTo(targetFile);

@@ -100,4 +100,13 @@ public class ExamController {
   public ResponseEntity<List<Exam>> findExamsByIds(@RequestBody List<Long> ids) {
     return ResponseEntity.ok(examService.findExamsByIds(ids));
   }
+
+  /**
+   * 更新考试的分数信息
+   */
+  @PutMapping("/score")
+  public ResponseEntity<Void> addFullScore(Integer score, Long examId) {
+    examService.addFullScore(score, examId);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
 }

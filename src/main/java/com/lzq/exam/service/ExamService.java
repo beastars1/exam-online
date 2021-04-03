@@ -64,6 +64,8 @@ public class ExamService {
   @Transactional
   public void saveExam(Exam exam) {
     log.info("[exam] save a new exam whose id : {}", exam.getExamId());
+    if (exam.getPaperId() == null)
+      exam.setExamId(this.findLastExam().getPaperId() + 1);
     examRepository.save(exam);
   }
 
@@ -86,11 +88,32 @@ public class ExamService {
   }
 
   /**
+   * 更新考试总分数
+   */
+  @Transactional
+  public void updateFullScore(Integer score, Long examId) {
+    log.info("[exam] update full score {} whose exam id : {}", score, examId);
+    examRepository.updateScoreByExamId(score, examId);
+  }
+
+  /**
+   * 更新并加上考试总分数
+   */
+  @Transactional
+  public void addFullScore(Integer score, Long examId) {
+    log.info("[exam] add {} full score whose exam id : {}", score, examId);
+    examRepository.addScoreByExamId(score, examId);
+  }
+
+  /**
    * 查询最后一条记录,返回给前端达到自增效果
    */
   public Exam findLastExam() {
     log.info("[exam] find last exam");
-    return examRepository.findLastExam();
+    Exam exam = examRepository.findLastExam();
+    if (exam.getPaperId() == null)
+      exam.setPaperId(0L);
+    return exam;
   }
 
   /**

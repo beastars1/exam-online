@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 /**
  * 判断题实体类
+ * type: 3
  *
  * @author beastars
  */

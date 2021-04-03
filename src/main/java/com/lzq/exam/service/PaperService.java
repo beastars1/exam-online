@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author beastars
@@ -35,6 +36,9 @@ public class PaperService {
 
   @Autowired
   private ChoiceService choiceService;
+
+  @Autowired
+  private ExamService examService;
 
   /**
    * 根据试卷编号获取和该试卷关联的所有问题
@@ -73,6 +77,9 @@ public class PaperService {
    */
   @Transactional
   public void assemblePaper(PaperItems items) {
+    Long examId = items.getExamId();
+    // 这张试卷的总分
+    AtomicReference<Integer> fullScore = new AtomicReference<>(0);
     // 获取各种题型的问题数量
     Integer choiceCount = items.getChoiceCount();
     Integer fillCount = items.getFillCount();
@@ -89,7 +96,8 @@ public class PaperService {
       throw new ExamException(ExceptionEnum.CHOICE_NOT_ENOUGH);
     // 将获取的问题和试卷问题表paper关联
     choices.forEach(choice -> {
-      if (paperRepository.findByPaperIdAndTypeAndQuestionId(paperId, 2, choice.getId()) == null)
+      fullScore.updateAndGet(v -> v + choice.getScore());
+      if (paperRepository.findByPaperIdAndTypeAndQuestionId(paperId, 1, choice.getId()) == null)
         this.savePaper(new Paper(paperId, 1, choice.getId()));
     });
 
@@ -98,6 +106,7 @@ public class PaperService {
     if (fills.size() < fillCount)
       throw new ExamException(ExceptionEnum.FILL_NOT_ENOUGH);
     fills.forEach(fill -> {
+      fullScore.updateAndGet(v -> v + fill.getScore());
       if (paperRepository.findByPaperIdAndTypeAndQuestionId(paperId, 2, fill.getId()) == null)
         this.savePaper(new Paper(paperId, 2, fill.getId()));
     });
@@ -108,9 +117,13 @@ public class PaperService {
       throw new ExamException(ExceptionEnum.JUDGE_NOT_ENOUGH);
     // 将获取的问题和试卷问题表paper关联
     judges.forEach(judge -> {
-      if (paperRepository.findByPaperIdAndTypeAndQuestionId(paperId, 2, judge.getId()) == null)
+      fullScore.updateAndGet(v -> v + judge.getScore());
+      if (paperRepository.findByPaperIdAndTypeAndQuestionId(paperId, 3, judge.getId()) == null)
         this.savePaper(new Paper(paperId, 3, judge.getId()));
     });
+
+    // 更新总分
+    examService.updateFullScore(fullScore.get(), examId);
   }
 
   /**
