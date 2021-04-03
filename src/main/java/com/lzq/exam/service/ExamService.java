@@ -66,6 +66,8 @@ public class ExamService {
     log.info("[exam] save a new exam whose id : {}", exam.getExamId());
     if (exam.getPaperId() == null)
       exam.setExamId(this.findLastExam().getPaperId() + 1);
+    if (exam.getFullScore() == null)
+      exam.setFullScore(0);
     examRepository.save(exam);
   }
 
