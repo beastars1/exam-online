@@ -22,20 +22,8 @@ public class FaceController {
    * @param file 要识别的图片的base64码
    * @return 是否是同一个人
    */
-  @PostMapping("/search/image")
-  public ResponseEntity<String> faceSearch(String file, Long studentId) {
+  @PostMapping("/search")
+  public ResponseEntity<Boolean> faceSearch(String file, Long studentId) {
     return ResponseEntity.ok(faceService.faceSearchById(file, studentId));
-  }
-
-  /**
-   * 人脸识别，检测是否和照片是同一个人
-   *
-   * @param file 要识别的图片的base64码
-   * @param feature 传入的特征码，减少查询数据库操作
-   * @return 是否是同一个人
-   */
-  @PostMapping("/search/cache")
-  public ResponseEntity<Boolean> faceSearch(String file, byte[] feature) {
-    return ResponseEntity.ok(faceService.faceSearchByFeature(file, feature));
   }
 }

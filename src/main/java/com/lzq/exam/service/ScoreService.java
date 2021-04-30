@@ -1,7 +1,9 @@
 package com.lzq.exam.service;
 
+import com.lzq.exam.common.PrefixEnum;
 import com.lzq.exam.entity.Score;
 import com.lzq.exam.repository.ScoreRepository;
+import com.lzq.exam.util.RedisUtils;
 import com.lzq.exam.vo.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ import java.util.List;
 public class ScoreService {
   @Autowired
   private ScoreRepository scoreRepository;
+
+  @Autowired
+  private RedisUtils redisUtils;
 
   /**
    * 查询所有分数，并通过分数由高到低排序
@@ -108,5 +113,8 @@ public class ScoreService {
   public void saveScore(Score score) {
     log.info("[score] save a new score");
     scoreRepository.save(score);
+    // 考试完毕，删除该考生在 redis 中的人脸缓存
+    String key = PrefixEnum.EXAM_FACE.getPrefix() + score.getStudentId();
+    redisUtils.delete(key);
   }
 }

@@ -136,11 +136,11 @@ public class FaceEngineService {
   /**
    * 比对人脸特征
    *
-   * @param faceFeature     传入的特征值
-   * @param studentFaceInfo 要比对的学生的人脸信息
+   * @param sourceFeature     传入的特征值
+   * @param targetFeature 要比对的学生的人脸信息
    * @return 是否是同一个人
    */
-  public boolean compareFaceFeature(byte[] faceFeature, UserFaceInfo studentFaceInfo) {
+  public boolean compareFaceFeature(byte[] sourceFeature, byte[] targetFeature) {
     // 获取人脸引擎
     FaceEngine faceEngine = null;
     try {
@@ -148,37 +148,10 @@ public class FaceEngineService {
 
       // 设置要比较的目标特征，即摄像头抓取到的图像
       FaceFeature targetFaceFeature = new FaceFeature();
-      targetFaceFeature.setFeatureData(faceFeature);
+      targetFaceFeature.setFeatureData(sourceFeature);
       // 设置要比较的源特征，即该学生在数据库的人脸特征
       FaceFeature sourceFaceFeature = new FaceFeature();
-      sourceFaceFeature.setFeatureData(studentFaceInfo.getFaceFeature());
-      // 比对相似度
-      FaceSimilar faceSimilar = new FaceSimilar();
-      faceEngine.compareFaceFeature(targetFaceFeature, sourceFaceFeature, faceSimilar);
-      // 获取相似值
-      int similarValue = plusHundred(faceSimilar.getScore());
-      log.info("[face] the image's similar value : {}", similarValue);
-      // 相似值大于配置预期，就认为是同一个人
-      return similarValue > passRate;
-    } catch (Exception e) {
-      log.error("[face] unknown exception : {}", e.fillInStackTrace().toString());
-      throw new ExamException(ExceptionEnum.UNKNOWN_EXCEPTION);
-    } finally {
-      faceEngineObjectPool.returnObject(faceEngine);
-    }
-  }
-
-  public boolean compareFaceFeatureByCache(byte[] faceFeature, byte[] cacheFeature) {
-    // 获取人脸引擎
-    FaceEngine faceEngine = null;
-    try {
-      faceEngine = faceEngineObjectPool.borrowObject();
-      // 设置要比较的目标特征，即摄像头抓取到的图像
-      FaceFeature targetFaceFeature = new FaceFeature();
-      targetFaceFeature.setFeatureData(cacheFeature);
-      // 设置要比较的源特征，即该学生在数据库的人脸特征
-      FaceFeature sourceFaceFeature = new FaceFeature();
-      sourceFaceFeature.setFeatureData(faceFeature);
+      sourceFaceFeature.setFeatureData(targetFeature);
       // 比对相似度
       FaceSimilar faceSimilar = new FaceSimilar();
       faceEngine.compareFaceFeature(targetFaceFeature, sourceFaceFeature, faceSimilar);
