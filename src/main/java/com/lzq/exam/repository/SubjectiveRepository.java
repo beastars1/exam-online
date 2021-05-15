@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
+ * 主观题暂未接入
+ *
  * @author beastars
  */
 public interface SubjectiveRepository extends JpaRepository<SubjectiveQuestion, Long> {

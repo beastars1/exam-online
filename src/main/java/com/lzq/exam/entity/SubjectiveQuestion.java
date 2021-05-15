@@ -14,6 +14,8 @@ import javax.persistence.Table;
 /**
  * 主观题，记录所有的主观题及其详情
  *
+ * 主观题暂未接入
+ *
  * @author beastars
  */
 @EqualsAndHashCode(callSuper = true)
