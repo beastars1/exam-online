@@ -81,7 +81,7 @@ public class RedisUtils {
     try {
       return redisTemplate.hasKey(key);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("[redis] redis get error", e);
       return false;
     }
   }
@@ -92,12 +92,16 @@ public class RedisUtils {
    * @param key 一个或多个键
    */
   public void delete(Object... key) {
-    if (key != null && key.length > 0) {
-      if (key.length == 1) {
-        redisTemplate.delete(key[0]);
-      } else {
-        redisTemplate.delete(CollectionUtils.arrayToList(key));
+    try {
+      if (key != null && key.length > 0) {
+        if (key.length == 1) {
+          redisTemplate.delete(key[0]);
+        } else {
+          redisTemplate.delete(CollectionUtils.arrayToList(key));
+        }
       }
+    } catch (Exception e) {
+      log.error("[redis] redis delete error", e);
     }
   }
 }
