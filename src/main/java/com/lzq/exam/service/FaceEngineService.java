@@ -100,10 +100,6 @@ public class FaceEngineService {
 
       // 判断图片中是否只有一个人
       int peopleCount = howManyInImage(faceEngine, imageInfo, faceInfoList);
-      if (peopleCount > 1) // 说明检测出了多个人脸
-        throw new ExamException(ExceptionEnum.FIND_MULTIPLE_FACES);
-      else if (peopleCount < 1) // 说明没有检测到人脸
-        throw new ExamException(ExceptionEnum.NO_FACE_DETECTED);
 
       // 返回值为0表示成功
       if (code == 0) {
@@ -191,8 +187,13 @@ public class FaceEngineService {
     // 活体检测
     List<LivenessInfo> livenessInfoList = new ArrayList<>();
     faceEngine.getLiveness(livenessInfoList);
-    log.info("[face] {} faces are detected on the screen", livenessInfoList.size());
-    return livenessInfoList.size();
+    int faceCount = livenessInfoList.size();
+    log.info("[face] {} faces are detected on the screen", faceCount);
+    if (faceCount > 1) // 说明检测出了多个人脸
+      throw new ExamException(ExceptionEnum.FIND_MULTIPLE_FACES);
+    else if (faceCount < 1) // 说明没有检测到人脸
+      throw new ExamException(ExceptionEnum.NO_FACE_DETECTED);
+    return faceCount;
   }
 
   /**
