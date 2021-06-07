@@ -26,6 +26,8 @@ public enum ExceptionEnum {
   NO_FACE_DETECTED(500, "未检测到人脸"),
   BASE64_ERROR(500, "图片base64值错误"),
   FIND_MULTIPLE_FACES(500, "识别出多个人脸"),
+  MULTIPLE_SCORE(500, "该考试中的该考生分数已存在"),
+  FULL_SCORE_IS_NOT_EQUAL(500, "抽取的试题满分和指定的不相等"),
   ;
   private Integer code;
   private String msg;

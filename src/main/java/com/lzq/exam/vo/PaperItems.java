@@ -15,6 +15,8 @@ public class PaperItems {
   private Long examId;
   /** 试卷属于哪一个课程 */
   private String course;
+  /** 试卷的满分 */
+  private int fullScore;
   /** 这张试卷的选择题数量 */
   private Integer choiceCount;
   /** 这张试卷的填空题数量 */

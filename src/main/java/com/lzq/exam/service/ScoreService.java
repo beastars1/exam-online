@@ -1,5 +1,7 @@
 package com.lzq.exam.service;
 
+import com.lzq.exam.common.ExamException;
+import com.lzq.exam.common.ExceptionEnum;
 import com.lzq.exam.common.PrefixEnum;
 import com.lzq.exam.entity.Score;
 import com.lzq.exam.repository.ScoreRepository;
@@ -111,6 +113,9 @@ public class ScoreService {
    */
   @Transactional
   public void saveScore(Score score) {
+    if (this.haveExam(score.getExamId(), score.getStudentId())) {
+      throw new ExamException(ExceptionEnum.MULTIPLE_SCORE);
+    }
     log.info("[score] save a new score");
     scoreRepository.save(score);
     // 考试完毕，删除该考生在 redis 中的人脸缓存

@@ -122,8 +122,21 @@ public class PaperService {
         this.savePaper(new Paper(paperId, 3, judge.getId()));
     });
 
+    if (fullScore.get() != items.getFullScore()) {
+      throw new ExamException(ExceptionEnum.FULL_SCORE_IS_NOT_EQUAL);
+    }
+
     // 更新总分
     examService.updateFullScore(fullScore.get(), examId);
+  }
+
+  /**
+   * 根据试卷编号删除试题
+   */
+  @Transactional
+  public void deleteQuestionByPaperId(Long paperId) {
+    log.info("[paper] delete paper questions by paper id : {}", paperId);
+    paperRepository.deletePaperByPaperId(paperId);
   }
 
   /**

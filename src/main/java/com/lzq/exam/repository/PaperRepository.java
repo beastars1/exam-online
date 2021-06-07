@@ -18,4 +18,9 @@ public interface PaperRepository extends JpaRepository<Paper, Long> {
    * 来判断是不是已经存在要插入的问题
    */
   Paper findByPaperIdAndTypeAndQuestionId(Long paperId, Integer type, Long quesId);
+
+  /**
+   * 根据试卷编号删除试题
+   */
+  void deletePaperByPaperId(Long paperId);
 }

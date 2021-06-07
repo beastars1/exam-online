@@ -25,6 +25,9 @@ public class ExamService {
   @Autowired
   private ExamRepository examRepository;
 
+  @Autowired
+  private PaperService paperService;
+
   /**
    * 分页查询考试信息
    *
@@ -77,7 +80,9 @@ public class ExamService {
   @Transactional
   public void deleteExamById(Long examId) {
     log.info("[exam] delete a exam whose id : {}", examId);
+    Long paperId = this.findExamById(examId).getPaperId();
     examRepository.deleteById(examId);
+    paperService.deleteQuestionByPaperId(paperId);
   }
 
   /**
