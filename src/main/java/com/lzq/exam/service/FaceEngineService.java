@@ -82,6 +82,7 @@ public class FaceEngineService {
    */
   public byte[] extractFaceFeature(ImageInfo imageInfo) {
     FaceEngine faceEngine = null;
+    int peopleCount = 0;
     try {
       //获取引擎对象
       faceEngine = faceEngineObjectPool.borrowObject();
@@ -99,7 +100,11 @@ public class FaceEngineService {
       );
 
       // 判断图片中是否只有一个人
-      int peopleCount = howManyInImage(faceEngine, imageInfo, faceInfoList);
+      peopleCount = howManyInImage(faceEngine, imageInfo, faceInfoList);
+      if (peopleCount > 1) // 说明检测出了多个人脸
+        throw new ExamException(ExceptionEnum.FIND_MULTIPLE_FACES);
+      else if (peopleCount < 1) // 说明没有检测到人脸
+        throw new ExamException(ExceptionEnum.NO_FACE_DETECTED);
 
       // 返回值为0表示成功
       if (code == 0) {
@@ -116,8 +121,10 @@ public class FaceEngineService {
 
         return faceFeature.getFeatureData();
       }
+    } catch (ExamException e) {
+      throw new ExamException(e.getExceptionEnum());
     } catch (Exception e) {
-      log.error("[face] unknown exception : {}", e.fillInStackTrace().getMessage());
+      e.printStackTrace();
     } finally {
       if (faceEngine != null) {
         //释放引擎对象
@@ -189,10 +196,6 @@ public class FaceEngineService {
     faceEngine.getLiveness(livenessInfoList);
     int faceCount = livenessInfoList.size();
     log.info("[face] {} faces are detected on the screen", faceCount);
-    if (faceCount > 1) // 说明检测出了多个人脸
-      throw new ExamException(ExceptionEnum.FIND_MULTIPLE_FACES);
-    else if (faceCount < 1) // 说明没有检测到人脸
-      throw new ExamException(ExceptionEnum.NO_FACE_DETECTED);
     return faceCount;
   }
 
